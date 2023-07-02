@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import scss from "./MovieItem.module.scss"
 
@@ -20,5 +21,12 @@ const MovieItem = ({id, title, img}) => {
         </Link>
     )
 }
+
+MovieItem.propTypes = {
+      // title: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      img: PropTypes.string,
+      title: PropTypes.string,
+  };
 
 export default MovieItem
