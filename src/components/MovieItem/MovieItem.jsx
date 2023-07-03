@@ -23,7 +23,6 @@ const MovieItem = ({id, title, img}) => {
 }
 
 MovieItem.propTypes = {
-      // title: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
       img: PropTypes.string,
       title: PropTypes.string,

@@ -9,10 +9,8 @@ import {
   NoCastText,
   Wrapper,
 } from '../Cast/Cast.styled';
-import axios from 'axios';
 
-const baseURL = 'https://api.themoviedb.org';
-const API_KEY = "d6e689e53b61040192ebd16d8765557a";
+import {fetchMovieCast} from '../../sevices/api'
 
 const Cast = () => {
   const { movieId } = useParams(); 
@@ -21,10 +19,8 @@ const Cast = () => {
   useEffect(() => {
     const fetchCast = async () => {
       try {
-        const { data } = await axios.get(
-            `${baseURL}/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
-          );
-        setCast(data.cast);
+        const { cast } = await fetchMovieCast(movieId);
+        setCast(cast);
       } catch (error) {
         console.log(error);
       }

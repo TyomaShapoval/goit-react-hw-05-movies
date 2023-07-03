@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { lazy, Suspense } from 'react';
 import { Triangle } from 'react-loader-spinner'
+import {fetchTrendMovies} from '../../sevices/api'
 
-import Header from "../../components/Header/Header";
 const Trending = lazy(() => import('../../components/Trending/Trending'));
 
 
 
 const Home = () => {
 
+    const[movies, setMovies] = useState([])
+
+    useEffect(()=> {
+        const fetchMovies = async () => {
+  
+            try {
+              const response = await fetchTrendMovies();
+              setMovies(response.results);
+
+            } catch (error) {
+              console.error('Error fetching movies:', error);
+            }
+          };
+
+          fetchMovies();
+    }, [])
 
     return (
 
         <React.Fragment>
-            <Header />
             <Suspense fallback={<Triangle
                 height="200"
                 width="200"
@@ -23,7 +38,7 @@ const Home = () => {
                 wrapperClassName=""
                 visible={true}
             />}>
-                <Trending />
+                <Trending movies={movies} />
         </Suspense>
         </React.Fragment>
 

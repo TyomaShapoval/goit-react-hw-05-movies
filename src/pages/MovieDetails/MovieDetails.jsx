@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 
-import Header from "../Header/Header";
 import scss from "./MovieDetails.module.scss"
-import Cast from "./../Cast/Cast";
-import Reviews from './../Reviews/Reviews';
+import Cast from "../../components/Cast/Cast";
+import Reviews from '../../components/Reviews/Reviews';
+import {fetchMovieById} from '../../sevices/api'
 
 import Notiflix from 'notiflix';
-import axios from 'axios';
 
 const MovieItem = () => {
-    const baseURL = 'https://api.themoviedb.org';
-    const API_KEY = "d6e689e53b61040192ebd16d8765557a";
+
     const { movieId } = useParams();
     const location = useLocation();
     const [selectedMovie, setSelectedMovie] = useState({});
@@ -21,11 +19,9 @@ const MovieItem = () => {
     const fetchSelectedMovie = async (movieId) => {
 
         try {
-          const getRes = await axios.get(
-              `${baseURL}/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`
-              );
+          const getRes = await fetchMovieById(movieId);
   
-            setSelectedMovie(getRes.data);
+            setSelectedMovie(getRes);
 
         } catch (error) {
           Notiflix.Notify.failure(error.message);
@@ -55,7 +51,6 @@ const MovieItem = () => {
 
     return (
       <React.Fragment>
-        <Header />
           <section className={scss.details}>
         <Link className={scss.back} to={location?.state?.from ?? '/'}>
         </Link>

@@ -10,23 +10,17 @@ import {
   Wrapper,
 } from './Reviews.styled';
 
-import axios from 'axios';
-
-const baseURL = 'https://api.themoviedb.org';
-const API_KEY = "d6e689e53b61040192ebd16d8765557a";
+import {fetchMovieReviews} from '../../sevices/api'
 
 const Reviews = () => {
   const { movieId } = useParams(); 
-  const [reviews, setReviews] = useState([]); // додаємо стейт для відгуків
+  const [reviews, setReviews] = useState([]);
 
-  // додаємо запит на відгуки
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const { data } = await axios.get(
-            `${baseURL}/3/movie/${movieId}}/reviews?api_key=${API_KEY}&language=en-US&page=1`
-          );
-        setReviews(data.results);
+        const { results } = await fetchMovieReviews(movieId);
+        setReviews(results);
       } catch (error) {
         console.log(error);
       }
@@ -39,7 +33,6 @@ const Reviews = () => {
     <Wrapper>
       <ReviewHeader>Reviews</ReviewHeader>
 
-      {/* додаємо перевірку на наявність відгуків */}
       {reviews.length ? (
         <ReviewList className="reviews-container">
           {reviews.map(review => (
